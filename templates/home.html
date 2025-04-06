@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - AI Food Companion{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-green-700 mb-6">
+        👨‍🍳 Welcome to Your AI-Powered Recipe Companion!
+    </h1>
+    <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-10">
+        Discover recipes with ingredients you already have, and find creative, eco-friendly ways to repurpose kitchen waste. Eat smarter. Waste less. 🍽️♻️
+    </p>
+
+    <div class="flex flex-col md:flex-row justify-center gap-6">
+        <a href="{{ url_for('ingredient_fetcher.ingredient_fetcher') }}"
+           class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-full text-lg shadow-md transition">
+            🥕 Ingredient Fetcher
+        </a>
+
+        <a href="{{ url_for('manual_recipe_input.show_manual_recipe_form') }}"
+   class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full text-lg shadow-md transition">
+   📝 Manual Recipe Input
+</a>
+
+
+<a href="{{ url_for('manual_waste_input.manual_waste_input') }}"
+class="px-6 py-3 bg-teal-500 hover:bg-teal-600 text-white rounded-full text-lg shadow-md transition">
+🧼 Manual Waste Input
+</a>        
+    </div>
+</div>
+
+{% endblock %}

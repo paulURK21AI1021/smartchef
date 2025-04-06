@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Ingredient Fetcher{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto p-6">
+    <h1 class="text-3xl font-bold text-green-700 mb-6 text-center">🥕 Upload Ingredient Images</h1>
+
+    <form method="POST" enctype="multipart/form-data" class="bg-white rounded-xl shadow p-6 space-y-4">
+        <input type="file" name="images" multiple required
+               class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+                      file:rounded-full file:border-0 file:text-sm file:font-semibold
+                      file:bg-green-50 file:text-green-700 hover:file:bg-green-100"/>
+
+        <button type="submit"
+                class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition">
+            Fetch Ingredients
+        </button>
+    </form>
+
+    {% if ingredients_data %}
+        <h2 class="text-2xl font-semibold text-gray-800 mt-10 mb-4">🧾 Fetched Ingredients</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+            {% for data in ingredients_data %}
+                <div class="bg-gray-100 p-4 rounded-lg shadow">
+                    <img src="{{ url_for('static', filename=data.image_url.split('static/')[1]) }}"
+                         alt="Uploaded Image"
+                         class="w-full max-w-xs mx-auto rounded mb-3">
+                    <ul class="list-disc list-inside text-gray-700">
+                        {% for ingredient in data.ingredients %}
+                            <li>{{ ingredient }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+
+        <h2 class="text-2xl font-semibold text-gray-800 mt-10 mb-4">🍽️ Curate a Recipe</h2>
+
+        <form action="{{ url_for('recipe_curation.recipe_curation') }}" method="POST"
+              class="bg-white p-6 rounded-xl shadow space-y-4">
+
+            {% for data in ingredients_data %}
+                {% for ingredient in data.ingredients %}
+                    <input type="hidden" name="ingredients" value="{{ ingredient }}">
+                {% endfor %}
+            {% endfor %}
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-1 font-medium">Dietary Preference</label>
+                    <select name="dietary_preference" required class="w-full border p-2 rounded">
+                        <option value="">--Select--</option>
+                        <option value="Vegetarian">Vegetarian</option>
+                        <option value="Vegan">Vegan</option>
+                        <option value="Non-Vegetarian">Non-Vegetarian</option>
+                        <option value="Gluten-Free">Gluten-Free</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block mb-1 font-medium">Cuisine</label>
+                    <select name="cuisine" required class="w-full border p-2 rounded">
+                        <option value="">--Select--</option>
+                        <option value="Indian">Indian</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="Italian">Italian</option>
+                        <option value="Mexican">Mexican</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block mb-1 font-medium">Meal Type</label>
+                    <select name="meal_type" required class="w-full border p-2 rounded">
+                        <option value="">--Select--</option>
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Lunch">Lunch</option>
+                        <option value="Dinner">Dinner</option>
+                        <option value="Snack">Snack</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block mb-1 font-medium">Skill Level</label>
+                    <select name="skill_level" required class="w-full border p-2 rounded">
+                        <option value="">--Select--</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded-lg transition">
+                Generate Recipes
+            </button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

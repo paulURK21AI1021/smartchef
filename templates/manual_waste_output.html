@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Creative Waste Repurpose Ideas{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-green-50 py-10 px-4">
+    <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-8">
+        <h2 class="text-3xl font-bold text-green-700 mb-6">♻️ Creative Waste Repurpose Ideas</h2>
+
+        {% if suggestions %}
+            <ul class="space-y-6">
+                {% for item in suggestions %}
+                    <li class="border-l-4 border-green-500 pl-4">
+                        <h3 class="text-xl font-semibold">{{ item.ingredient }}</h3>
+                        <p class="text-sm text-gray-500">Edibility: {{ item.edibility }}</p>
+                        <p class="mt-2 text-gray-700 whitespace-pre-line">{{ item.tips }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-gray-600 text-lg">No creative reuse suggestions found for your ingredients.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

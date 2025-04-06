@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Manual Waste Input{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-yellow-50 py-10 px-4">
+    <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-xl p-8">
+        <h2 class="text-3xl font-bold text-yellow-600 mb-6">📝 Enter Your Kitchen Waste</h2>
+
+        <form method="POST" action="{{ url_for('manual_waste_input.manual_waste_input') }}">
+            <label for="waste_items" class="block text-gray-700 text-lg mb-2">Enter waste items (comma separated):</label>
+            <textarea id="waste_items" name="waste_items" rows="4" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-yellow-500 focus:border-yellow-500" placeholder="e.g. eggshells, watermelon rind, carrot tops"></textarea>
+            
+            <button type="submit" class="mt-4 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded-lg">
+                ♻️ Get Suggestions
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

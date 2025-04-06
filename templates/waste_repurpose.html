@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Waste Repurpose Suggestions{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto p-6">
+    <h1 class="text-4xl font-bold text-green-700 mb-8 text-center">♻️ Creative Waste Repurpose Ideas</h1>
+
+    {% if suggestions %}
+        <div class="space-y-6">
+            {% for suggestion in suggestions %}
+                <div class="bg-white border-l-4 border-green-500 shadow-md rounded-xl p-6">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{ suggestion.ingredient }}</h3>
+                    <p class="text-sm text-gray-600 mb-2"><strong>Status:</strong> {{ suggestion.edibility }}</p>
+                    <p class="font-medium text-gray-700 mb-2">Suggestions:</p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        {% for line in suggestion.suggestions.splitlines() %}
+                            {% if line.strip() %}
+                                <li>{{ line.strip('âœ…✔️') | trim }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-red-600 font-medium text-center">No creative reuse suggestions found for your ingredients.</p>
+    {% endif %}
+
+    <div class="mt-10 text-center">
+        <a href="{{ url_for('ingredient_fetcher.ingredient_fetcher') }}"
+           class="inline-block text-blue-600 hover:text-blue-800 font-semibold underline transition">
+           ← Back to Ingredient Fetcher
+        </a>
+    </div>
+</div>
+{% endblock %}
