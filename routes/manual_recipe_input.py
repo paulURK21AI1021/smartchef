@@ -52,7 +52,7 @@ def manual_recipe_input():
                         'cuisine': row.get('cuisine', ''),
                         'meal_type': row.get('meal_type', ''),
                         'skill_level': row.get('skill_level', ''),
-                        'instructions': row.get('description', 'No instructions provided.')
+                        'instructions': row.get('steps', 'No instructions provided.')
                     })
 
             if len(matched_recipes) == 3:
