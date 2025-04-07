@@ -14,12 +14,12 @@
 
         <button type="submit"
                 class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition">
-            Fetch Ingredients
+            Recognise Ingredients
         </button>
     </form>
 
     {% if ingredients_data %}
-        <h2 class="text-2xl font-semibold text-gray-800 mt-10 mb-4">🧾 Fetched Ingredients</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 mt-10 mb-4">🧾 Recognised Ingredients</h2>
         <div class="grid md:grid-cols-2 gap-6">
             {% for data in ingredients_data %}
                 <div class="bg-gray-100 p-4 rounded-lg shadow">
