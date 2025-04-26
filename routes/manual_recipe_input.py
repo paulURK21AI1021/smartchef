@@ -45,6 +45,15 @@ def manual_recipe_input():
                 if skill_level in str(row.get('skill_level', '')).lower(): match_score += 1
 
                 if match_score >= 1:
+                    # Parse nutrition into a dictionary
+                    nutrition_info = {}
+                    if pd.notnull(row.get('nutrition', '')):
+                        nutrition_parts = str(row.get('nutrition', '')).split(',')
+                        for part in nutrition_parts:
+                            if ':' in part:
+                                key, value = part.split(':', 1)
+                                nutrition_info[key.strip()] = value.strip()
+
                     matched_recipes.append({
                         'title': row.get('name', 'Unnamed Recipe'),
                         'ingredients': recipe_ingredients,
@@ -52,7 +61,8 @@ def manual_recipe_input():
                         'cuisine': row.get('cuisine', ''),
                         'meal_type': row.get('meal_type', ''),
                         'skill_level': row.get('skill_level', ''),
-                        'instructions': row.get('steps', 'No instructions provided.')
+                        'instructions': row.get('steps', 'No instructions provided.'),
+                        'nutrition': nutrition_info  # <<< Added nutrition here
                     })
 
             if len(matched_recipes) == 3:

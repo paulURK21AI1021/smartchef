@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request
 import pandas as pd
+import ast  # 🛠 Needed for parsing the string list into a real list
 from rapidfuzz import fuzz
 
 recipe_curation_bp = Blueprint('recipe_curation', __name__)
@@ -40,6 +41,9 @@ def recipe_curation():
             if skill_level in str(row.get('skill_level', '')).lower(): match_score += 1
 
             if match_score >= 1:
+                # Safely parse the nutrition field
+                nutrition_info = ast.literal_eval(row.get('nutrition', '[]')) if pd.notnull(row.get('nutrition')) else []
+
                 matched_recipes.append({
                     'title': row.get('name', 'Unnamed Recipe'),
                     'ingredients': recipe_ingredients,
@@ -47,7 +51,8 @@ def recipe_curation():
                     'cuisine': row.get('cuisine', ''),
                     'meal_type': row.get('meal_type', ''),
                     'skill_level': row.get('skill_level', ''),
-                    'instructions': row.get('steps', 'No instructions provided.')
+                    'instructions': row.get('steps', 'No instructions provided.'),
+                    'nutrition': nutrition_info  # 👉 Adding the nutrition info here
                 })
 
         # Stop once 3 matching recipes are found
