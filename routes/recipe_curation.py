@@ -44,6 +44,17 @@ def recipe_curation():
                 # Safely parse the nutrition field
                 nutrition_info = ast.literal_eval(row.get('nutrition', '[]')) if pd.notnull(row.get('nutrition')) else []
 
+                # Parse the steps and format them properly
+                steps_raw = row.get('steps', '[]')
+                try:
+                    steps_list = ast.literal_eval(steps_raw) if isinstance(steps_raw, str) else steps_raw
+                    if isinstance(steps_list, list):
+                        formatted_steps = ', '.join([f"step-{i+1}: {step}" for i, step in enumerate(steps_list)])
+                    else:
+                        formatted_steps = "Instructions unavailable."
+                except Exception:
+                    formatted_steps = "Instructions unavailable."
+
                 matched_recipes.append({
                     'title': row.get('name', 'Unnamed Recipe'),
                     'ingredients': recipe_ingredients,
@@ -51,8 +62,8 @@ def recipe_curation():
                     'cuisine': row.get('cuisine', ''),
                     'meal_type': row.get('meal_type', ''),
                     'skill_level': row.get('skill_level', ''),
-                    'instructions': row.get('steps', 'No instructions provided.'),
-                    'nutrition': nutrition_info  # 👉 Adding the nutrition info here
+                    'instructions': formatted_steps,  # 👉 Formatted nicely now
+                    'nutrition': nutrition_info
                 })
 
         # Stop once 3 matching recipes are found

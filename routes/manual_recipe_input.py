@@ -27,6 +27,8 @@ def manual_recipe_input():
         meal_type = request.form.get('meal_type', '').strip().lower()
         skill_level = request.form.get('skill_level', '').strip().lower()
 
+        
+
         for _, row in df.iterrows():
             recipe_ingredients = row['ingredients']
             fuzzy_matches = []
@@ -36,6 +38,7 @@ def manual_recipe_input():
                     if fuzz.partial_ratio(user_ing, recipe_ing) >= 70:
                         fuzzy_matches.append(recipe_ing)
                         break
+            
 
             if len(fuzzy_matches) >= 2:
                 match_score = 0
@@ -44,6 +47,8 @@ def manual_recipe_input():
                 if meal_type in str(row.get('meal_type', '')).lower(): match_score += 1
                 if skill_level in str(row.get('skill_level', '')).lower(): match_score += 1
 
+                
+                 
                 if match_score >= 1:
                     # Parse nutrition into a dictionary
                     nutrition_info = {}
